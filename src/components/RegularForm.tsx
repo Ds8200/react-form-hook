@@ -7,57 +7,45 @@ interface FormData {
 }
 
 function RegularForm() {
-  const {
+  const { 
     register,
     handleSubmit,
-    formState: {errors},
-  } = useForm();
+    formState: { errors },
+  } = useForm<FormData>();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    alert(JSON.stringify(formData));
+  const onSubmit = (data: FormData) => {
+    alert(JSON.stringify(data));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Change Me To React Hook Form</h1>
       <div>
         <input
+          {...register("username", { required: true })}
           type="text"
           id="username"
-          name="username"
-          placeholder='Enter UserName'
-          value={formData.username}
-          onChange={handleChange}
+          placeholder="Enter UserName"
         />
+        {errors.username && <p>This field is required</p>}
       </div>
       <div>
         <input
+          {...register("email", { required: true })}
           type="text"
           id="email"
-          name="email"
-          placeholder='Enter Email'
-          value={formData.email}
-          onChange={handleChange}
+          placeholder="Enter Email"
         />
+        {errors.email && <p>This field is required</p>}
       </div>
       <div>
         <input
+          {...register("password", { required: true })}
           type="text"
           id="password"
-          name="password"
-          placeholder='Enter Password'
-          value={formData.password}
-          onChange={handleChange}
+          placeholder="Enter Password"
         />
+        {errors.password && <p>This field is required</p>}
       </div>
       <button type="submit">Submit</button>
     </form>
